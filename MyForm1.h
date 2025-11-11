@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<string>
+#include "MyForm2.h"
 namespace lz14 {
 
 	using namespace System;
@@ -19,14 +20,16 @@ namespace lz14 {
 		{
 			InitializeComponent();
 			// Ініціалізація полів
-			answers = gcnew array<String^>{"повторення", "7", "if", "while"};
+			answers = gcnew array<String^>{"повторення", "7", "if", "while","13","10"};
 			step = 0;
 			userName = "";
 			questions = gcnew array<String^>{
 				"Що таке цикл у програмі?",
 					"Обчисли 3 + 4",
 					"Який оператор використовується для розгалуження?",
-					"Який цикл виконує код, поки умова істинна?"
+					"Який цикл виконує код, поки умова істинна?",
+					"Обчисли 5 + 8",
+					"Обчисли 2 * 5"
 			};
 			//
 			//TODO: Add the constructor code here
@@ -57,7 +60,11 @@ namespace lz14 {
 		int step;
 		String^ userName;
 		array<String^>^ questions;
-		/// <summary>
+		int correctAnswers = 0;
+	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ button4;
+		   /// <summary>
 		/// Required designer variable.
 		/// </summary>
 		System::ComponentModel::Container ^components;
@@ -73,6 +80,9 @@ namespace lz14 {
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -94,6 +104,7 @@ namespace lz14 {
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox1->TabIndex = 3;
 			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm1::pictureBox1_Click);
 			// 
 			// textBox1
 			// 
@@ -111,11 +122,44 @@ namespace lz14 {
 			this->textBox2->Size = System::Drawing::Size(332, 60);
 			this->textBox2->TabIndex = 5;
 			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(610, 260);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(189, 38);
+			this->button2->TabIndex = 6;
+			this->button2->Text = L"Залишити відгук";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm1::button2_Click);
+			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(610, 216);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(189, 38);
+			this->button3->TabIndex = 7;
+			this->button3->Text = L"Змінити фон";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm1::button3_Click);
+			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(610, 172);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(189, 38);
+			this->button4->TabIndex = 8;
+			this->button4->Text = L"Почати заново";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm1::pictureBox1_Click);
+			// 
 			// MyForm1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(921, 435);
+			this->Controls->Add(this->button4);
+			this->Controls->Add(this->button3);
+			this->Controls->Add(this->button2);
 			this->Controls->Add(this->textBox2);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->pictureBox1);
@@ -133,6 +177,7 @@ namespace lz14 {
 
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		
 		String^ user = textBox2->Text->Trim();
 		if (user->Length == 0) return;
 
@@ -147,7 +192,7 @@ namespace lz14 {
 		}
 		else if (step == 1) {
 			if (user->ToLower() == answers[0]) {
-				textBox1->AppendText("Бот: Правильно!\r\n");
+				textBox1->AppendText("Бот: Правильно!\r\n"); correctAnswers++;
 				pictureBox1->Image = Image::FromFile("happy.png");
 			}
 			else {
@@ -160,8 +205,8 @@ namespace lz14 {
 		}
 		else if (step == 2) {
 			if (user->ToLower() == answers[1]) {
-				textBox1->AppendText("Бот: Молодець!\r\n");
-				pictureBox1->Image = Image::FromFile("happy.png");
+				textBox1->AppendText("Бот: Молодець!\r\n"); correctAnswers++;
+				pictureBox1->Image = Image::FromFile("think.png");
 			}
 			else {
 				textBox1->AppendText("Бот: Хмм… правильна відповідь: " + answers[1] + "\r\n");
@@ -173,7 +218,7 @@ namespace lz14 {
 		}
 		else if (step == 3) {
 			if (user->ToLower() == answers[2]) {
-				textBox1->AppendText("Бот: Супер!\r\n");
+				textBox1->AppendText("Бот: Супер!\r\n"); correctAnswers++;
 				pictureBox1->Image = Image::FromFile("zar.jpg");
 			}
 			else {
@@ -186,7 +231,7 @@ namespace lz14 {
 		}
 		else if (step == 4) {
 			if (user->ToLower() == answers[3]) {
-				textBox1->AppendText("Бот: Правильно! Ура, всі питання пройдено!\r\n");
+				textBox1->AppendText("Бот: Правильно! Ура, всі питання пройдено!\r\n"); correctAnswers++;
 				pictureBox1->Image = Image::FromFile("zar.jpg");
 			}
 			else {
@@ -195,6 +240,8 @@ namespace lz14 {
 			}
 			MessageBox::Show("Ти відповів на всі питання.\r\n");
 			step = 5;
+			textBox1->AppendText("Ти відповів правильно на " + correctAnswers +
+				" з " + answers->Length + " питань.\r\n");
 		}
 	}
 	
@@ -207,5 +254,21 @@ private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e)
 
 
 
+private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
+	step = 0;
+	correctAnswers = 0;
+	textBox1->Clear();
+	pictureBox1->Image = Image::FromFile("welcom2.jpg");
+	textBox1->AppendText("Бот: Привіт! Як тебе звати? → \r\n");
+}
+
+private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	Random^ r = gcnew Random();
+	this->BackColor = Color::FromArgb(r->Next(256), r->Next(256), r->Next(256));
+}
+private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+	MyForm2^ feedbackForm = gcnew MyForm2();
+	feedbackForm->ShowDialog();
+}
 };
 }
